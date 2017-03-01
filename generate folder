@@ -1,0 +1,18 @@
+Sub Macro1()
+Dim strFilename, strDirname, strPathname, strDefpath As String
+On Error Resume Next ' If directory exist goto next line
+strDirname = Range("B1").Value ' New directory name
+
+strFilename = Range("B1").Value 'New file name
+strDefpath = "C:\Users\julrich\Desktop\Borrowers" 'Default path name
+If IsEmpty(strDirname) Then Exit Sub
+If IsEmpty(strFilename) Then Exit Sub
+
+MkDir strDefpath & "\" & strDirname
+strPathname = strDefpath & "\" & strDirname & "\" & strFilename 'create total string
+
+ActiveWorkbook.SaveAs Filename:=strPathname & ".xlsm", _
+FileFormat:=xlOpenXMLWorkbookMacroEnabled, Password:="", WriteResPassword:="", _
+ReadOnlyRecommended:=False, CreateBackup:=False
+End Sub
+
