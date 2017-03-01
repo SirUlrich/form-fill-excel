@@ -1,0 +1,20 @@
+Sub Macro2()
+Dim rngRange        As Range
+Dim strFilename, strDirname, strPathname, strDefpath As String
+On Error Resume Next ' If directory exist goto next line
+strDirname = Range("B1").Value ' New directory name
+
+'Considering Sheet1 to be where you need to pick file name
+Set rngRange = Worksheets("Refi Script").Range("B1")
+
+'Create File name with dateStamp
+strFilename = rngRange.Value
+
+Sheets("Output - Refi").Activate
+ActiveSheet.ExportAsFixedFormat Type:=xlTypePDF, Filename:= _
+    "C:\\" & strFilename & "\" & strFilename & " Numbers" & ".pdf" _
+    , Quality:=xlQualityStandard, IncludeDocProperties:=True, IgnorePrintAreas _
+    :=False, OpenAfterPublish:=True
+    
+End Sub
+
