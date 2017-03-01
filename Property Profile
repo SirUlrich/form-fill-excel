@@ -1,0 +1,44 @@
+Dim HTMLDoc As HTMLDocument
+Dim MyBrowser As InternetExplorer
+ Sub WFG()
+ Dim MyHTML_Element As IHTMLElement
+ Dim MyURL As String
+ On Error GoTo Err_Clear
+ MyURL = "https://www.titleprofile.com/logon.asp"
+ Set MyBrowser = New InternetExplorer
+ MyBrowser.Silent = True
+ MyBrowser.navigate MyURL
+ MyBrowser.Visible = True
+ 
+ Do
+ Loop Until MyBrowser.readyState = READYSTATE_COMPLETE
+ Set HTMLDoc = MyBrowser.document
+ HTMLDoc.all.UserName.Value = ""
+ HTMLDoc.all.Password.Value = ""
+ For Each MyHTML_Element In HTMLDoc.getElementsByTagName("input")
+ If MyHTML_Element.Type = "submit" Then MyHTML_Element.Click: Exit For
+ Next
+ 
+MyBrowser.navigate "https://www.titlepro247.com/GoToClassic.ashx"
+Application.Wait Now + TimeValue("00:00:05")
+MyBrowser.navigate "https://www.titleprofile.com/AddressEntry.asp"
+ 
+ Do
+ Loop Until MyBrowser.readyState = READYSTATE_COMPLETE
+ Set HTMLDoc = MyBrowser.document
+ HTMLDoc.all.address.Value = ThisWorkbook.Sheets("Refi Script").Range("d13")
+ HTMLDoc.all.zip.Value = ThisWorkbook.Sheets("Refi Script").Range("d14")
+ For Each MyHTML_Element In HTMLDoc.getElementsByTagName("input")
+ If MyHTML_Element.Type = "submit" Then MyHTML_Element.Click: Exit For
+ Next
+
+Application.Wait Now + TimeValue("00:00:02")
+MyBrowser.navigate "https://www.titleprofile.com/order.asp?cmd=8"
+
+ 
+Err_Clear:
+ If Err <> 0 Then
+ Err.Clear
+ Resume Next
+ End If
+ End Sub
